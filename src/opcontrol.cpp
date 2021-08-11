@@ -1,17 +1,6 @@
 #include "main.h"
 #include "globals.h"
 
-void myOpControl() {
-    // Basic op control using tank drive
-    while (true) {
-        pros::delay(10);
-        int power = masterController.get_analog(ANALOG_LEFT_Y);
-        int turn = masterController.get_analog(ANALOG_RIGHT_X);
-
-        driveTrain->tank(power, turn, 0.5); // TODO: Change threshold to something useful
-    }    
-}
-
 /**
  * \brief Scale joystick output to cubic graph
  * 
@@ -20,4 +9,17 @@ void myOpControl() {
 double joystickCubicDrive(int raw) {
     double scaledRaw = ((double)raw) / 127.0;
     return pow(scaledRaw, 3);
+}
+
+void myOpControl()
+{
+    // Basic op control using tank drive
+    while (true)
+    {
+        pros::delay(10);
+        int power = masterController.get_analog(ANALOG_LEFT_Y);
+        int turn = masterController.get_analog(ANALOG_RIGHT_X);
+
+        driveTrain->tank(joystickCubicDrive(power), joystickCubicDrive(turn), 0.5); // TODO: Change threshold to something useful
+    }
 }
