@@ -4,10 +4,11 @@
 void myOpControl() {
     // Basic op control using tank drive
     while (true) {
+        pros::delay(10);
         int power = masterController.get_analog(ANALOG_LEFT_Y);
         int turn = masterController.get_analog(ANALOG_RIGHT_X);
 
-        driveTrain->arcade(power, turn, 0.5); // TODO: Change threshold to something useful
+        driveTrain->tank(power, turn, 0.5); // TODO: Change threshold to something useful
     }    
 }
 
