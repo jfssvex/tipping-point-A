@@ -13,13 +13,14 @@ double joystickCubicDrive(int raw) {
 
 void myOpControl()
 {
-    // Basic op control using tank drive
+    // Basic op control using tank 
     while (true)
     {
-        pros::delay(10);
         int power = masterController.get_analog(ANALOG_LEFT_Y);
         int turn = masterController.get_analog(ANALOG_RIGHT_X);
 
         driveTrain->tank(joystickCubicDrive(power), joystickCubicDrive(turn), 0.5); // TODO: Change threshold to something useful
+
+        pros::delay(10);
     }
 }
