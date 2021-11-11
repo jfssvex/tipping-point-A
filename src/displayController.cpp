@@ -30,7 +30,8 @@ const std::map<std::string, lv_color_t> colors {
     {"purple", LV_COLOR_MAKE(88, 36, 133)},
     {"grey", LV_COLOR_MAKE(69, 69, 69)},
     {"yellow", LV_COLOR_MAKE(255, 210, 72)},
-    {"white", LV_COLOR_MAKE(255, 255, 255)}
+    {"white", LV_COLOR_MAKE(255, 255, 255)},
+    {"black", LV_COLOR_MAKE(0, 0 , 0)}
 };
 
 /**

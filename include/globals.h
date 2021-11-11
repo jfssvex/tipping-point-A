@@ -14,7 +14,7 @@
 #include "driveSystems/drivetrainPID.h"
 #include "displayController.h"
 #include "tracking.h"
-
+#include "systems/intake.h"
 // Motors
 
 // Drivetrain motors
@@ -31,6 +31,8 @@ extern pros::ADIEncoder bEnc; // Back encoder
 extern pros::ADIEncoder lEnc; // Left encoder
 extern pros::ADIEncoder rEnc; // Right encoder
 
+//System Managers
+extern Intake intake;
 
 // Drivetrain
 extern SkidSteerDrive* driveTrain;

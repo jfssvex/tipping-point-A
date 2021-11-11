@@ -36,7 +36,8 @@ enum DISPLAY_MODE {
     SELECTOR, // The autonomous selector
     CONFIRM, // Shows the autonomous selected
     MATCH, // The mode to display during a match
-    DEBUG // The debug mode
+    DEBUG, // The debug mode
+    STATS //Shows Statistics on screen
 };
 
 /**
