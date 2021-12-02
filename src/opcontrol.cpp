@@ -13,24 +13,31 @@ double joystickCubicDrive(int raw) {
 }
 
 void myOpControl() {
-    // Enable the intake
+
+    // Enable all systems
     intake.enable();
+    forklift.enable();
 
     // 0 -> nothing, 1 -> clockwise, -1 -> counter clockwise
     int macroToggle = 0;
 
-    pros::Motor forkLift(15);
-	int forkSpeed = 127;
-	forkLift.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
+    // Internal state for forklift 1
+    // 0 -> Down, 1 -> Middle, 2 -> Up
+    int forkliftState = 0;
 
     while (true) {
-        // Basic op control using arcade drive
-        int forward = masterController.get_analog(ANALOG_LEFT_Y);
-        int sideways = masterController.get_analog(ANALOG_LEFT_X);
-        driveTrain->arcade(joystickCubicDrive(forward), joystickCubicDrive(sideways), 0);
+        // Basic op control using tank drive
+        int left = masterController.get_analog(ANALOG_LEFT_Y);
+        int right = masterController.get_analog(ANALOG_RIGHT_Y);
+        driveTrain->tank(joystickCubicDrive(left), joystickCubicDrive(right), 0);
 
         int intakeUp = masterController.get_digital(DIGITAL_R1);
         int intakeDown = masterController.get_digital(DIGITAL_R2);
+
+         // Forklift manual controls
+        int forkliftUp = masterController.get_digital(DIGITAL_L1);
+        int forkliftDown = masterController.get_digital(DIGITAL_L2);
+
 
         /*
         // For experimenting with speeds
@@ -40,9 +47,6 @@ void myOpControl() {
        
         int intakeMacroCW = masterController.get_digital_new_press(DIGITAL_UP);
         int intakeMacroCCW = masterController.get_digital_new_press(DIGITAL_DOWN);
-
-        bool forkUp = masterController.get_digital(DIGITAL_L1);
-		bool forkDown = masterController.get_digital(DIGITAL_L2);
 
         // Intake macro handler
         if (macroToggle == -1 && intakeMacroCCW) {
@@ -76,39 +80,56 @@ void myOpControl() {
                 // Operator control
                 intake.control();
 
+                /*
+                int speed = 40;
+
+                if (intakeSpeed3) {
+                    speed = 100;
+                } else if (intakeSpeed2) {
+                    speed = 60;
+                }
+
                 if (intakeUp) {
-                    intake.setPower(90);
+                    intake.setPower(speed);
                 } else if (intakeDown) {
-                    intake.setPower(-90);
+                    intake.setPower(-speed);
                 } else {
                     intake.setPower(0);
                 }
+                */
 
+<<<<<<< Updated upstream
                 // Joystick now mapped to intake, change later
-                //intake.setPower(joystickCubicDrive(intakeUp));
+                intake.setPower(joystickCubicDrive(right));
+=======
+>>>>>>> Stashed changes
                 break;
             }
             default: {
                 break;
             }
         }
+        intake.update();
+
+        forklift.control();
+        int forkliftSpeed = 127;
+
+        if (forkliftUp) {
+            forklift.setPower(forkliftSpeed);
+        } else if (forkliftDown) {
+            forklift.setPower(-forkliftSpeed);
+        } else {
+            forklift.setPower(0);
+        }
+
+        // Run update funcs on sysmans
+        forklift.update();
 
         // Operator control
         if (!macroToggle) {
             stopIntakeSmoothMove();
         }
 
-        if(forkUp){
-			forkLift.move(-forkSpeed);
-		}
-		else if(forkDown){
-			forkLift.move(forkSpeed);
-		}
-		else{
-			forkLift.move(0);
-		}
-
-
-		pros::delay(20);
-	}
+        pros::delay(10);
+    }    
 }

@@ -9,8 +9,11 @@ double abs(double x) {
     return x >= 0 ? x : -x;
 }
 
-Intake::Intake(STATE defaultState) : SystemManager((SystemManager::STATE) defaultState) {
+Intake::Intake(uint8_t defaultState, PIDInfo constants) : SystemManager(defaultState) {
     this->defaultState = defaultState;
+    this->intakeMotor.set_brake_mode(MOTOR_BRAKE_HOLD);
+    this->constants = constants;
+    this->intake_pidController = new PIDController(0, this->constants, 10, 1);
 }
 
 
@@ -42,7 +45,8 @@ void Intake::stop() {
 void Intake::update() {
     // Update PID variables
     this->position = this->intakeMotor.get_position();
-    this->error = this->position - this->target;
+    // this->error = this->position - this->target;
+    double intake_speed = intake_pidController->step(this->position);
 
     switch(this->state) {
         case CLOCKWISE_STATE:
@@ -63,9 +67,9 @@ void Intake::update() {
     }
 }
 
-bool Intake::changeState(STATE newState) {
+bool Intake::changeState(uint8_t newState) {
     // Run basic state change code in base function
-    bool processed = SystemManager::changeState((SystemManager::STATE) newState);
+    bool processed = SystemManager::changeState(newState);
 
     if (!processed) {
         return false;
@@ -74,13 +78,13 @@ bool Intake::changeState(STATE newState) {
     switch(newState) {
         case CLOCKWISE_STATE: {
             // Run intake clockwise
-            this->intakeMotor.set_brake_mode(pros::E_MOTOR_BRAKE_COAST);
+            this->intakeMotor.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
             this->setPower(this->power);
             break;
         }
         case COUNTER_CLOCKWISE_STATE: {
             // Run intake counter-clockwise
-            this->intakeMotor.set_brake_mode(pros::E_MOTOR_BRAKE_COAST);
+            this->intakeMotor.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
             this->setPower(this->power);
             break;
         }
@@ -105,7 +109,7 @@ bool Intake::changeState(STATE newState) {
         }
         case OPERATOR_OVERRIDE: {
             // Allow motor to coast
-            this->intakeMotor.set_brake_mode(pros::E_MOTOR_BRAKE_COAST);
+            this->intakeMotor.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
             break;
         }
     }
