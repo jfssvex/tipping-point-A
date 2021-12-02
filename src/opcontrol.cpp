@@ -20,10 +20,10 @@ void myOpControl() {
     int macroToggle = 0;
 
     while (true) {
-        // Basic op control using tank drive
-        int left = masterController.get_analog(ANALOG_LEFT_Y);
-        int right = masterController.get_analog(ANALOG_RIGHT_Y);
-        driveTrain->tank(joystickCubicDrive(left), joystickCubicDrive(right), 0);
+        // Basic op control using arcade drive
+        int forward = masterController.get_analog(ANALOG_LEFT_Y);
+        int sideways = masterController.get_analog(ANALOG_LEFT_X);
+        driveTrain->arcade(joystickCubicDrive(forward), joystickCubicDrive(sideways), 0);
 
         int intakeUp = masterController.get_digital(DIGITAL_L1);
         int intakeDown = masterController.get_digital(DIGITAL_R1);
@@ -69,26 +69,16 @@ void myOpControl() {
                 // Operator control
                 intake.control();
 
-                /*
-                int speed = 40;
-
-                if (intakeSpeed3) {
-                    speed = 100;
-                } else if (intakeSpeed2) {
-                    speed = 60;
-                }
-
                 if (intakeUp) {
-                    intake.setPower(speed);
+                    intake.setPower(90);
                 } else if (intakeDown) {
-                    intake.setPower(-speed);
+                    intake.setPower(-90);
                 } else {
                     intake.setPower(0);
                 }
-                */
 
                 // Joystick now mapped to intake, change later
-                intake.setPower(joystickCubicDrive(right));
+                //intake.setPower(joystickCubicDrive(intakeUp));
                 break;
             }
             default: {

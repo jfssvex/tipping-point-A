@@ -13,10 +13,10 @@
 
 // Motor pin numbers
 #define TL_PORT 1
-#define TR_PORT 2
-#define BL_PORT 3
-#define BR_PORT 4
-#define INTAKE_PORT 12
+#define TR_PORT 10
+#define BL_PORT 11
+#define BR_PORT 20
+#define INTAKE_PORT 2
 
 // Encoder pin numbers
 #define BENC_PORT_TOP 5
