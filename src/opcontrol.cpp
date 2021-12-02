@@ -19,14 +19,18 @@ void myOpControl() {
     // 0 -> nothing, 1 -> clockwise, -1 -> counter clockwise
     int macroToggle = 0;
 
+    pros::Motor forkLift(15);
+	int forkSpeed = 127;
+	forkLift.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
+
     while (true) {
         // Basic op control using arcade drive
         int forward = masterController.get_analog(ANALOG_LEFT_Y);
         int sideways = masterController.get_analog(ANALOG_LEFT_X);
         driveTrain->arcade(joystickCubicDrive(forward), joystickCubicDrive(sideways), 0);
 
-        int intakeUp = masterController.get_digital(DIGITAL_L1);
-        int intakeDown = masterController.get_digital(DIGITAL_R1);
+        int intakeUp = masterController.get_digital(DIGITAL_R1);
+        int intakeDown = masterController.get_digital(DIGITAL_R2);
 
         /*
         // For experimenting with speeds
@@ -36,6 +40,9 @@ void myOpControl() {
        
         int intakeMacroCW = masterController.get_digital_new_press(DIGITAL_UP);
         int intakeMacroCCW = masterController.get_digital_new_press(DIGITAL_DOWN);
+
+        bool forkUp = masterController.get_digital(DIGITAL_L1);
+		bool forkDown = masterController.get_digital(DIGITAL_L2);
 
         // Intake macro handler
         if (macroToggle == -1 && intakeMacroCCW) {
@@ -91,6 +98,17 @@ void myOpControl() {
             stopIntakeSmoothMove();
         }
 
-        pros::delay(10);
-    }    
+        if(forkUp){
+			forkLift.move(-forkSpeed);
+		}
+		else if(forkDown){
+			forkLift.move(forkSpeed);
+		}
+		else{
+			forkLift.move(0);
+		}
+
+
+		pros::delay(20);
+	}
 }
