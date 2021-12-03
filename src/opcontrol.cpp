@@ -29,10 +29,12 @@ void myOpControl() {
         // Basic op control using arcade drive
         int forward = masterController.get_analog(ANALOG_LEFT_Y);
         int sideways = masterController.get_analog(ANALOG_LEFT_X);
+
         driveTrain->arcade(joystickCubicDrive(forward), joystickCubicDrive(sideways), 0);
 
-        // Intake mapped to right joystick X value
-        int intakeState = (masterController.get_analog(ANALOG_RIGHT_X));
+        // Intake mapped to right shoulder buttons
+        int intakeUp = masterController.get_digital(DIGITAL_R1);
+        int intakeDown = masterController.get_digital(DIGITAL_R2);
 
         // Forklift mapped to right joystick Y value (forward is down, back is up)
         int forkliftSpeed = -(masterController.get_analog(ANALOG_RIGHT_Y));
@@ -71,6 +73,19 @@ void myOpControl() {
             case 0: {
                 // Operator control
                 intake.control();
+                
+                // Note: value will most likely change
+                int intakeSpeed = 70;
+
+                if (intakeUp) {
+                    intake.setPower(intakeSpeed);
+                }
+                else if (intakeDown) {
+                    intake.setPower(-(intakeSpeed));
+                }
+                else {
+                    intake.setPower(0);
+                }
                 break;
             }
             default: {
@@ -79,6 +94,7 @@ void myOpControl() {
         }
         intake.update();
 
+        // Forklift control
         forklift.control();
         
         // Forklift power set to forkliftSpeed from right joystick value 
