@@ -26,24 +26,16 @@ void myOpControl() {
     int forkliftState = 0;
 
     while (true) {
-        // Basic op control using tank drive
-        int left = masterController.get_analog(ANALOG_LEFT_Y);
-        int right = masterController.get_analog(ANALOG_RIGHT_Y);
-        driveTrain->tank(joystickCubicDrive(left), joystickCubicDrive(right), 0);
+        // Basic op control using arcade drive
+        int forward = masterController.get_analog(ANALOG_LEFT_Y);
+        int sideways = masterController.get_analog(ANALOG_LEFT_X);
+        driveTrain->arcade(joystickCubicDrive(forward), joystickCubicDrive(sideways), 0);
 
-        int intakeUp = masterController.get_digital(DIGITAL_R1);
-        int intakeDown = masterController.get_digital(DIGITAL_R2);
+        // Intake mapped to right joystick X value
+        int intakeState = (masterController.get_analog(ANALOG_RIGHT_X));
 
-         // Forklift manual controls
-        int forkliftUp = masterController.get_digital(DIGITAL_L1);
-        int forkliftDown = masterController.get_digital(DIGITAL_L2);
-
-
-        /*
-        // For experimenting with speeds
-        int intakeSpeed2 = masterController.get_digital(DIGITAL_L2);
-        int intakeSpeed3 = masterController.get_digital(DIGITAL_R2);
-        */
+        // Forklift mapped to right joystick Y value (forward is down, back is up)
+        int forkliftSpeed = -(masterController.get_analog(ANALOG_RIGHT_Y));
        
         int intakeMacroCW = masterController.get_digital_new_press(DIGITAL_UP);
         int intakeMacroCCW = masterController.get_digital_new_press(DIGITAL_DOWN);
@@ -79,30 +71,6 @@ void myOpControl() {
             case 0: {
                 // Operator control
                 intake.control();
-
-                /*
-                int speed = 40;
-
-                if (intakeSpeed3) {
-                    speed = 100;
-                } else if (intakeSpeed2) {
-                    speed = 60;
-                }
-
-                if (intakeUp) {
-                    intake.setPower(speed);
-                } else if (intakeDown) {
-                    intake.setPower(-speed);
-                } else {
-                    intake.setPower(0);
-                }
-                */
-
-<<<<<<< Updated upstream
-                // Joystick now mapped to intake, change later
-                intake.setPower(joystickCubicDrive(right));
-=======
->>>>>>> Stashed changes
                 break;
             }
             default: {
@@ -112,15 +80,9 @@ void myOpControl() {
         intake.update();
 
         forklift.control();
-        int forkliftSpeed = 127;
-
-        if (forkliftUp) {
-            forklift.setPower(forkliftSpeed);
-        } else if (forkliftDown) {
-            forklift.setPower(-forkliftSpeed);
-        } else {
-            forklift.setPower(0);
-        }
+        
+        // Forklift power set to forkliftSpeed from right joystick value 
+        forklift.setPower(joystickCubicDrive(forkliftSpeed));
 
         // Run update funcs on sysmans
         forklift.update();

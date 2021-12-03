@@ -1,11 +1,11 @@
 /**
  * \file globals.h
- * 
+ *
  * \brief Contains all the global variables used throughout the project.
- * 
- * Contains global variables such as motors and encoders 
+ *
+ * Contains global variables such as motors and encoders
  * that are used throughout the project.
-*/
+ */
 
 #pragma once
 
@@ -20,13 +20,13 @@
 // Motors
 
 // Drivetrain motors
-extern pros::Motor tLeft; // Top left motor      
-extern pros::Motor tRight; // Top right motor      
-extern pros::Motor bLeft; // Bottom left motor
+extern pros::Motor tLeft;  // Top left motor
+extern pros::Motor tRight; // Top right motor
+extern pros::Motor bLeft;  // Bottom left motor
 extern pros::Motor bRight; // Bottom right motor
 
-//Forklift motor
-extern pros::Motor *forkliftMotor; //Forklift Motor
+// Forklift motor
+extern pros::Motor *forkliftMotor; // Forklift Motor
 
 // Encoders
 
@@ -35,13 +35,13 @@ extern pros::ADIEncoder bEnc; // Back encoder
 extern pros::ADIEncoder lEnc; // Left encoder
 extern pros::ADIEncoder rEnc; // Right encoder
 
-//System Managers
+// System Managers
 extern Intake intake;
 
 extern Forklift forklift;
 
 // Drivetrain
-extern SkidSteerDrive* driveTrain;
+extern SkidSteerDrive *driveTrain;
 extern DrivetrainPID driveTrainPID;
 
 // Odometry tracking

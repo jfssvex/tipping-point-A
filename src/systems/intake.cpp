@@ -121,3 +121,4 @@ void Intake::fullReset() {
     this->intakeMotor.tare_position();
     SystemManager::fullReset();
 }
+        

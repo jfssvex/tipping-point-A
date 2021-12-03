@@ -1,5 +1,5 @@
 /**
- * Implementation for the Intake system manager.
+ * Implementation for the Forklift system manager.
 */
 
 #include "systems/forklift.h"
