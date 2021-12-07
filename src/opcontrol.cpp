@@ -13,15 +13,12 @@ double joystickCubicDrive(int raw) {
 }
 
 void myOpControl() {
-    // Enable the intake
+    // Enable the systems
     intake.enable();
+    forklift.enable();
 
     // 0 -> nothing, 1 -> clockwise, -1 -> counter clockwise
     int macroToggle = 0;
-
-    pros::Motor forkLift(15);
-	int forkSpeed = 127;
-	forkLift.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
 
     while (true) {
         // Basic op control using arcade drive
@@ -99,13 +96,13 @@ void myOpControl() {
         }
 
         if(forkUp){
-			forkLift.move(-forkSpeed);
+			forklift.up();
 		}
 		else if(forkDown){
-			forkLift.move(forkSpeed);
+			forklift.down();
 		}
 		else{
-			forkLift.move(0);
+			forklift.stop();
 		}
 
 

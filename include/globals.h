@@ -15,6 +15,7 @@
 #include "displayController.h"
 #include "tracking.h"
 #include "systems/intake.h"
+#include "systems/fork.h"
 // Motors
 
 // Drivetrain motors
@@ -33,6 +34,7 @@ extern pros::ADIEncoder rEnc; // Right encoder
 
 //System Managers
 extern Intake intake;
+extern Fork forklift;
 
 // Drivetrain
 extern SkidSteerDrive* driveTrain;
