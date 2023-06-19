@@ -14,6 +14,3 @@ This code is for VEX V5 systems only.
 
 ## Documentation
 Documentation for the project can be found [here](https://aritrosaha10.github.io/bootstrapped-vex-v5/).
-
-## Goals
-Goals for the project can be found [here](https://github.com/AritroSaha10/bootstrapped-vex-v5/projects/1).
